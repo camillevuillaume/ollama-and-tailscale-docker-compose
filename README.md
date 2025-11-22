@@ -14,7 +14,7 @@ Some EC2 instances do have GPUs. For small to medium models in particular, the f
 | g5.xlarge     | 4     | x86_64        | 16GB  | NVIDIA A10G       | 22.4GB| 1.01 USD/h        |
 | g6e.xlarge    | 4     | x86_64        | 32GB  | NVIDIA L40S       | 44.7GB| 1.86 USD/h        |
 
-To get access to these instances, it is necessary to increase the vCPU quotas on G instances, which is zero by default. To do that, go to [Service Quotas][https://us-east-1.console.aws.amazon.com/servicequotas/home?region=us-east-1].
+To get access to these instances, it is necessary to increase the vCPU quotas on G instances, which is zero by default. To do that, go to [Service Quotas](https://us-east-1.console.aws.amazon.com/servicequotas/home?region=us-east-1).
 In "Manage quotas", select Amazon Elastic Compute Cloud (Amazon EC2). Then search for "All G and VT Spot instance Requests" as well as "All G and VT On-Demand Instance Requests" and request a quota increase, for instance to 8 vCPUs each. The approval may take a few hours.
 
 Note that the cheapest option is based on AMD GPUs, but standard Linux images provided by Amazon do not include the amdgpu driver.
