@@ -3,7 +3,7 @@ services:
     image: tailscale/tailscale:latest
     hostname: tailscale-ollama
     environment:
-      - TS_AUTHKEY=${TS_AUTH}
+      - TS_AUTHKEY=${TS_AUTH_KEY}
       - TS_EXTRA_ARGS=--advertise-tags=tag:container
       - TS_STATE_DIR=/var/lib/tailscale
       - TS_USERSPACE=false
@@ -15,10 +15,13 @@ services:
       - net_admin
     restart: unless-stopped
   ollama:
+    #AMD GPU SUPPORT
     image: ollama/ollama:rocm
     devices:
       - /dev/dri
       - /dev/kfd
+It has been tested locally on a Proxmox VM without GPU acceleration. Next I will try it out on EC2 instances with GPUs. My goal is to integrate it in some of my local workflows, for instance with N8N to accelerate LLMs.
+   # NVIDIA GPU SUPPORT
    # image: ollama/ollama:latest
    # deploy:
    #   resources:

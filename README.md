@@ -1,6 +1,6 @@
-# ollama-and-tailscale-docker-compose
-Docker compose yaml for Ollama and Tailscale.
-It has been tested locally on a Proxmox VM without GPU acceleration. Next I will try it out on EC2 instances with GPUs. My goal is to integrate it in some of my local workflows, for instance with N8N to accelerate LLMs.
+# Ollama with Tailscale on AWS EC2
+
+The purpose of this guide is to help you set up Ollama on an AWS EC2 instance with GPU support, and make it accessible securely over the internet using Tailscale. This setup allows you to run large language models on a cloud instance while keeping the communication secure and private.
 
 ## AWS EC2 Preparation
 
@@ -56,6 +56,7 @@ After the system reboots, connect again via SSH and run the following commands t
 wget https://repo.radeon.com/amdgpu-install/7.1/ubuntu/jammy/amdgpu-install_7.1.70100-1_all.deb
 sudo apt install ./amdgpu-install_7.1.70100-1_all.deb -y
 sudo amdgpu-install --usecase=rocmdev
+sudo usermod -a -G render $LOGNAME
 
 sudo reboot
 ```
@@ -78,6 +79,9 @@ Be sure to check the Tailscale documentation and video for more details.
 
 First, we need to install Docker and Docker Compose on the EC2 instance. Run the following commands:
 ```
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+```
 
 Now that we have everything ready, we can create the compose.yaml file. In the EC2 instance, create a new directory and inside it, create a file named `compose.yaml`. You can copy the contents of the file from this repository.
 In addition, we need to create a `.env` file to store environment variables. Create a file named `.env` in the same directory as `compose.yaml` and add the following content, replacing the placeholder with your Tailscale auth key created earlier:
@@ -89,3 +93,15 @@ Now, you can start the containers with the following command:
 docker compose up -d
 ```
 Docker will download the necessary images and start the containers in detached mode.
+Now let's check if everything is running correctly. First, from the Tailscale admin console, you should see the new EC2 instance connected to your Tailscale network with the "container" tag. Next, from a browser and a machine connected to the same Tailscale network, you can access the Ollama web interface by navigating to `http://<tailscale-ip>:11434`, replacing `<tailscale-ip>` with the Tailscale IP address of your EC2 instance. You should see the following message: "Ollama is running".
+
+## Using Ollama
+
+From your machine connected to the same Tailscale network, you can use the Ollama CLI to interact with the models hosted on the EC2 instance.
+First, set the `OLLAMA_HOST` environment variable to point to the Tailscale IP address of your EC2 instance. For example, in a bash shell, run:
+```export OLLAMA_HOST=http://<tailscale-ip>:11434
+```
+Now, you can use the Ollama CLI as if it were running locally. For example, to list the available models, run:
+```ollama list
+```
+
