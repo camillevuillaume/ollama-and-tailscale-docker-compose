@@ -16,10 +16,13 @@ services:
     restart: unless-stopped
   ollama:
     image: ollama/ollama:rocm
-    devices:
-      # kfd and dri device access needed for AMDGPU ROCm support to work
-      - /dev/kfd:/dev/kfd
-      - /dev/dri:/dev/dri
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     depends_on:
       - tailscale-ollama
     network_mode: service:tailscale-ollama
