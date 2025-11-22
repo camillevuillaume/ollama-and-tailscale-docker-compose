@@ -37,7 +37,8 @@ Go to the [EC2 dashboard](https://us-east-1.console.aws.amazon.com/ec2/home?regi
 Finally, review the instance settings and click on "Launch instance". Once the instance is running, click on it to see its details, including the public IP address.
 
 Now, you can connect to the instance using SSH. Open a terminal and run the following command, replacing `<path-to-your-key.pem>` with the path to your private key file and `<public-ip>` with the public IP address of your instance:
-```ssh -i <path-to-your-key.pem> ubuntu@<public-ip>
+```
+ssh -i <path-to-your-key.pem> ubuntu@<public-ip>
 ```
 
 ### AMD GPU driver installation
@@ -64,7 +65,8 @@ sudo reboot
 Check the [AMD GPU driver download page](https://www.amd.com/en/support/download/linux-drivers.html) for the latest version of the drivers.
 Note that the installation process may take some time.
 After the system reboots, connect again via SSH and verify that the AMD GPU driver is installed correctly by running:
-```rocminfo
+```
+rocminfo
 ```
 
 ## Tailscale Setup
@@ -99,9 +101,11 @@ Now let's check if everything is running correctly. First, from the Tailscale ad
 
 From your machine connected to the same Tailscale network, you can use the Ollama CLI to interact with the models hosted on the EC2 instance.
 First, set the `OLLAMA_HOST` environment variable to point to the Tailscale IP address of your EC2 instance. For example, in a bash shell, run:
-```export OLLAMA_HOST=http://<tailscale-ip>:11434
+```
+export OLLAMA_HOST=http://<tailscale-ip>:11434
 ```
 Now, you can use the Ollama CLI as if it were running locally. For example, to list the available models, run:
-```ollama list
+```
+ollama list
 ```
 
