@@ -92,7 +92,7 @@ TS_AUTH_KEY=tskey-yourgeneratedkeyhere
 ```
 Now, you can start the containers with the following command:
 ```
-docker compose up -d
+sudo docker compose up -d
 ```
 Docker will download the necessary images and start the containers in detached mode.
 Now let's check if everything is running correctly. First, from the Tailscale admin console, you should see the new EC2 instance connected to your Tailscale network with the "container" tag. Next, from a browser and a machine connected to the same Tailscale network, you can access the Ollama web interface by navigating to `http://<tailscale-ip>:11434`, replacing `<tailscale-ip>` with the Tailscale IP address of your EC2 instance. You should see the following message: "Ollama is running".
