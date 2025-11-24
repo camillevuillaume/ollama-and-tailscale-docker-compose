@@ -100,7 +100,7 @@ Now let's check if everything is running correctly. First, from the Tailscale ad
 ## Using Ollama
 
 From your machine connected to the same Tailscale network, you can use the Ollama CLI to interact with the models hosted on the EC2 instance.
-First, set the `OLLAMA_HOST` environment variable to point to the Tailscale IP address of your EC2 instance. For example, in a bash shell, run:
+First, set the `OLLAMA_HOST` environment variable to point to the Tailscale IP address of your EC2 instance, which can be found in the Tailscale admin console. In a bash shell, run:
 ```
 export OLLAMA_HOST=http://<tailscale-ip>:11434
 ```
@@ -108,4 +108,12 @@ Now, you can use the Ollama CLI as if it were running locally. For example, to l
 ```
 ollama list
 ```
+And to download models:
+```
+ollama pull qwen3:4b
+```
+
+## What to do next
+
+You can launch your instance whenever you need a bit more punch compared to your local PC, selecting one of the instances provided by AWS. For instance, you can connect an [n8n](https://n8n.io/) AI node running locally in your Tailnet with ollama as model, specifying the Tailscale IP of the AWS instance. 
 
